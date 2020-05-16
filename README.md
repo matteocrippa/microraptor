@@ -48,7 +48,7 @@ You can discover a bit more for now in `/test` directory.
 
 ### Todo
 
-- [] Middleware
-- [] Cookie
-- [] Querystring
-- [] Validation
+- [ ] Middleware
+- [ ] Cookie
+- [ ] Querystring
+- [ ] Validation
