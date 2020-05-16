@@ -8,7 +8,7 @@ Project is a work-in-progress and in _pre-alpha_.
 Import your _Microraptor_ in your project with just one line of code:
 
 ```ts
-import { Microraptor } from "https://deno.land/x/microraptor/";
+import { Microraptor } from "https://deno.land/x/microraptor/microraptor.ts";
 ```
 
 ## How to use (basic)
