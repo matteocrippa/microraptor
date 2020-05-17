@@ -44,7 +44,7 @@ Then in your terminal you can run:
 $ deno run --allow-net web.ts
 ```
 
-You can discover a bit more for now in `/test` directory.
+You can discover a bit more for now in `/examples` directory.
 
 ### Parameters
 
@@ -57,3 +57,5 @@ You can discover a bit more for now in `/test` directory.
 - [x] Querystring
 - [x] Params
 - [ ] Validation
+- [ ] Response type (text, json)
+- [ ] AWS Lambda support
