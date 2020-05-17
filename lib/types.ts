@@ -49,15 +49,32 @@ export class MicroraptorRequest {
   }
 
   private getQuery(): any {
+    if (this.request.url.indexOf("?") !== -1) {
+      const requestParams: Array<string> =
+        (this.request.url.split("?")[1] ?? "").split("&");
+
+      return requestParams.reduce((queries: object, query: string): object => {
+        if (!query) {
+          return queries;
+        }
+        const items = query.split("=");
+        return {
+          ...queries,
+          [items?.[0]]: items?.[1],
+        };
+      }, {}) || {};
+    }
     return {};
   }
 
   private getParam(): any {
     if (this.route.path.indexOf(":") !== -1) {
+      const sanitized = (this.request.url.split("?")?.[0] ?? "");
+
       const regex = new RegExp(
         this.route.path.replace(/:([a-zA-Z0-9_]*)/g, "([^\/]*)"),
       );
-      const values: Array<string> = (regex.exec(this.request.url) ?? []).splice(
+      const values: Array<string> = (regex.exec(sanitized) ?? []).splice(
         1,
       );
       const keys: Array<string> = (regex.exec(this.route.path) ?? []).splice(

@@ -22,7 +22,15 @@ server.route(
     controller: {
       response: (req: MicroraptorRequest) => {
         req.request.respond(
-          { body: JSON.stringify({ country: req.param.country, city: req.param.city }) },
+          {
+            body: JSON.stringify(
+              {
+                country: req.param.country,
+                city: req.param.city,
+                query: req.query,
+              },
+            ),
+          },
         );
       },
     },

@@ -46,9 +46,14 @@ $ deno run --allow-net web.ts
 
 You can discover a bit more for now in `/test` directory.
 
-### Todo
+### Parameters
+
+### Querystring
+
+## Pending implementation
 
 - [ ] Middleware
 - [ ] Cookie
-- [ ] Querystring
+- [x] Querystring
+- [x] Params
 - [ ] Validation

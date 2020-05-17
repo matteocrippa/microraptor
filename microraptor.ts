@@ -43,22 +43,24 @@ export class Microraptor {
         }
 
         if (route.path.indexOf(":") !== -1) {
+          const sanitized = (request.url.split("?")?.[0] ?? "");
+
           const regex = new RegExp(
             route.path.replace(/:([a-zA-Z0-9_]*)/g, "([^\/]*)"),
           );
-          const values: Array<string> = (regex.exec(request.url) ?? []).splice(
+          const values: Array<string> = (regex.exec(sanitized) ?? []).splice(
             1,
           );
           const keys: Array<string> = (regex.exec(route.path) ?? []).splice(
             1,
           ).map((item) => item.replace(":", ""));
-          const data = keys.reduce((o, k, i) => ({ ...o, [k]: values[i] }), {});
 
           let check = route.path;
           keys.forEach((value, key) =>
             check = check.replace(`:${value}`, values[key])
           );
-          return check === request.url;
+
+          return check === sanitized;
         }
 
         return route.path === request.url;
