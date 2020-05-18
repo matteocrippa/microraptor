@@ -2,7 +2,7 @@ import { assertEquals } from "https://deno.land/std@0.50.0/testing/asserts.ts";
 import { ServerRequest } from "https://deno.land/std@v0.51.0/http/server.ts";
 import { MicroRequest, Method } from "../lib/types/index.ts";
 
-Deno.test("Querystring / Strict implementation", () => {
+Deno.test("Querystring", () => {
   const dummyRequest = new ServerRequest();
   dummyRequest.method = "GET";
   dummyRequest.url = "/?string=value&number=2";
@@ -20,10 +20,10 @@ Deno.test("Querystring / Strict implementation", () => {
   assertEquals(processed.query.notexisting, undefined);
 });
 
-Deno.test("Querystring / Mispelled implementation", () => {
+Deno.test("Cookies", () => {
   const dummyRequest = new ServerRequest();
   dummyRequest.method = "GET";
-  dummyRequest.url = "/&string=value&number=2";
+  dummyRequest.url = "/";
 
   const processed = new MicroRequest(dummyRequest, {
     method: Method.get,
@@ -33,7 +33,21 @@ Deno.test("Querystring / Mispelled implementation", () => {
     },
   });
 
-  assertEquals(processed.query.string, "value");
-  assertEquals(processed.query.number, 2);
-  assertEquals(processed.query.notexisting, undefined);
+  assertEquals(processed.cookie, {});
+});
+
+Deno.test("Params", () => {
+  const dummyRequest = new ServerRequest();
+  dummyRequest.method = "GET";
+  dummyRequest.url = "/second";
+
+  const processed = new MicroRequest(dummyRequest, {
+    method: Method.get,
+    path: "/:first",
+    controller: {
+      response: (req: MicroRequest) => {},
+    },
+  });
+
+  assertEquals(processed.param.first, "second");
 });
