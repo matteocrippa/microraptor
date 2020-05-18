@@ -2,13 +2,7 @@ import {
   serve,
   Server,
 } from "https://deno.land/std@v0.51.0/http/server.ts";
-import {
-  Options,
-  Route,
-  Middleware,
-  Method,
-  MicroraptorRequest,
-} from "./lib/types.ts";
+import { Options, Route, Middleware, MicroRequest } from "./lib/types/index.ts";
 
 export class Microraptor {
   private readonly server: Server;
@@ -66,7 +60,7 @@ export class Microraptor {
         return route.path === request.url;
       });
       if (route) {
-        const requestEnanched: MicroraptorRequest = new MicroraptorRequest(
+        const requestEnanched: MicroRequest = new MicroRequest(
           request,
           route,
         );
@@ -84,4 +78,4 @@ export class Microraptor {
   }
 }
 
-export { Route, Options, Middleware, Method, MicroraptorRequest };
+export * from "./lib/types/index.ts";
