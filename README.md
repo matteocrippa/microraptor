@@ -16,20 +16,14 @@ import { Microraptor } from "https://deno.land/x/microraptor/microraptor.ts";
 A basic example of usage is creating a new file named for example `web.ts`:
 
 ```ts
-import {
-  Microraptor,
-  Method,
-  MicroraptorRequest,
-} from "https://deno.land/x/microraptor/";
-
+import { Microraptor, Method, MicroRequest } from "../microraptor.ts";
 const server = new Microraptor({ port: 3000 });
 
 server.route({
   method: Method.get,
   path: "/",
-  validation: [],
   controller: {
-    response: (req: MicroraptorRequest) => {
+    response: (req: MicroRequest) => {
       req.request.respond({ body: "Hello Microraptor!" });
     },
   },
@@ -44,7 +38,7 @@ Then in your terminal you can run:
 $ deno run --allow-net web.ts
 ```
 
-You can discover a bit more for now in `/test` directory.
+You can discover a bit more for now in `/examples` directory.
 
 ### Parameters
 
@@ -52,8 +46,12 @@ You can discover a bit more for now in `/test` directory.
 
 ## Pending implementation
 
-- [ ] Middleware
-- [ ] Cookie
 - [x] Querystring
 - [x] Params
+- [x] Cookie
 - [ ] Validation
+- [ ] CORS
+- [ ] Middleware
+- [ ] Response type (text, json)
+- [ ] AWS Lambda support
+- [ ] Test

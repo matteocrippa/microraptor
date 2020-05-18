@@ -1,36 +1,9 @@
 import {
   ServerRequest,
-  Response,
 } from "https://deno.land/std@v0.51.0/http/server.ts";
+import { Route } from "./route.ts";
 
-export type Options = {
-  readonly port: number;
-};
-
-export enum Method {
-  get = "GET",
-  post = "POST",
-  put = "PUT",
-  delete = "DELETE",
-  option = "OPTION",
-}
-
-export type Route = {
-  readonly method: Method;
-  readonly path: string;
-  readonly validation: Array<Validator>;
-  readonly controller: Controller;
-};
-
-export type Validator = {};
-
-export type Middleware = {};
-
-interface Controller {
-  response(req: MicroraptorRequest): void;
-}
-
-export class MicroraptorRequest {
+export class MicroRequest {
   readonly request: ServerRequest;
   route: Route;
   query: any = {};
@@ -48,7 +21,7 @@ export class MicroraptorRequest {
     this.cookie = this.getCookie();
   }
 
-  private getQuery(): any {
+  private getQuery(): object {
     if (this.request.url.indexOf("?") !== -1) {
       const requestParams: Array<string> =
         (this.request.url.split("?")[1] ?? "").split("&");
@@ -67,7 +40,7 @@ export class MicroraptorRequest {
     return {};
   }
 
-  private getParam(): any {
+  private getParam(): object {
     if (this.route.path.indexOf(":") !== -1) {
       const sanitized = (this.request.url.split("?")?.[0] ?? "");
 
@@ -87,7 +60,21 @@ export class MicroraptorRequest {
     return {};
   }
 
-  private getCookie(): any {
-    return {};
+  private getCookie(): object {
+    const cookies = this.request.headers?.get("cookie");
+    return cookies?.split(";").reduce((prev: any, cookie: string) => {
+      const parts = cookie.match(/(.*?)=(.*)$/);
+      if (parts && parts.length > 1) {
+        const key = parts[1].trim();
+        const value = parts[2].trim();
+        return {
+          ...prev,
+          [key]: value,
+        };
+      }
+      return {
+        ...prev,
+      };
+    }, {}) || {};
   }
 }
