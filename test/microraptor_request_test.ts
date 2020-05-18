@@ -20,20 +20,20 @@ Deno.test("Querystring / Strict implementation", () => {
   assertEquals(processed.query.notexisting, undefined);
 });
 
-// Deno.test("Querystring / Mispelled implementation", () => {
-//   const dummyRequest = new ServerRequest();
-//   dummyRequest.method = "GET";
-//   dummyRequest.url = "/&string=value&number=2";
+Deno.test("Querystring / Mispelled implementation", () => {
+  const dummyRequest = new ServerRequest();
+  dummyRequest.method = "GET";
+  dummyRequest.url = "/&string=value&number=2";
 
-//   const processed = new MicroRequest(dummyRequest, {
-//     method: Method.get,
-//     path: "/",
-//     controller: {
-//       response: (req: MicroRequest) => {},
-//     },
-//   });
+  const processed = new MicroRequest(dummyRequest, {
+    method: Method.get,
+    path: "/",
+    controller: {
+      response: (req: MicroRequest) => {},
+    },
+  });
 
-//   assertEquals(processed.query.string, "value");
-//   assertEquals(processed.query.number, 2);
-//   assertEquals(processed.query.notexisting, undefined);
-// });
+  assertEquals(processed.query.string, "value");
+  assertEquals(processed.query.number, 2);
+  assertEquals(processed.query.notexisting, undefined);
+});
