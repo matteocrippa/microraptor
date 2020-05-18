@@ -1,4 +1,4 @@
-# Microraptor
+# Microraptor [](!https://image.flaticon.com/icons/svg/145/145376.svg)
 
 _Microraptor_ is a lightweight framework for easy routing on top of deno network lib.
 Project is a work-in-progress and in _pre-alpha_.
@@ -55,3 +55,7 @@ You can discover a bit more for now in `/examples` directory.
 - [ ] Response type (text, json)
 - [ ] AWS Lambda support
 - [ ] Test
+
+### Credits
+
+Icon [Freepik](https://www.flaticon.com/authors/freepik)
