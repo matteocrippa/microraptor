@@ -58,4 +58,4 @@ You can discover a bit more for now in `/examples` directory.
 
 ### Credits
 
-Icon [Freepik](https://www.flaticon.com/authors/freepik)
+Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)
