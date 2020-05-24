@@ -1,4 +1,4 @@
-# ![](https://raw.githubusercontent.com/matteocrippa/microraptor/develop/.github/velociraptor.png) Microraptor
+# ![](https://raw.githubusercontent.com/matteocrippa/microraptor/master/.github/velociraptor.png) Microraptor
 
 _Microraptor_ is a lightweight framework for easy routing on top of deno network lib.
 Project is a work-in-progress and in _pre-alpha_.
