@@ -1,24 +1,36 @@
 import {
   ServerRequest,
 } from "https://deno.land/std@v0.51.0/http/server.ts";
+import { decode } from "https://deno.land/std@v0.51.0/encoding/utf8.ts";
 import { Route } from "./route.ts";
 
 export class MicroRequest {
   readonly request: ServerRequest;
   route: Route;
+  body: any = {};
   query: any = {};
   param: any = {};
   cookie: any = {};
 
   constructor(
-    req: ServerRequest,
+    request: ServerRequest,
     route: Route,
   ) {
-    this.request = req;
+    this.request = request;
     this.route = route;
+  }
+
+  async process() {
+    this.body = await this.getBody();
     this.query = this.getQuery();
     this.param = this.getParam();
     this.cookie = this.getCookie();
+  }
+
+  private async getBody(): Promise<object> {
+    const decoded = decode(await Deno.readAll(this.request.body));
+    // TODO: improve decoding
+    return decoded.length > 0 ? JSON.parse(decoded) : decoded;
   }
 
   private getQuery(): object {

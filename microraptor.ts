@@ -59,14 +59,29 @@ export class Microraptor {
 
         return route.path === request.url;
       });
+
       if (route) {
-        const requestEnanched: MicroRequest = new MicroRequest(
+        const requestMicro: MicroRequest = new MicroRequest(
           request,
           route,
         );
-        // TODO: check validation first
-        route.controller.response(requestEnanched);
+        await requestMicro.process();
+
+        // TODO: manage response types
+        if (route.validation) {
+          const valid = await route.validation?.validate(requestMicro);
+
+          if (valid !== true) {
+            return request.respond({
+              body: JSON.stringify({ status: 400, error: valid }),
+              status: 400,
+            });
+          }
+        }
+
+        route.controller.response(requestMicro);
       } else {
+        // TODO: make this more lean
         request.respond(
           {
             body: JSON.stringify({ status: 404, error: "Url not found" }),

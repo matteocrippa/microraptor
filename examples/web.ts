@@ -1,4 +1,13 @@
-import { Microraptor, Method, MicroRequest } from "../microraptor.ts";
+import {
+  Microraptor,
+  Method,
+  MicroRequest,
+} from "../microraptor.ts";
+import { Validation, MicroValidator } from "../lib/types/validation.ts";
+import {
+  Validator,
+  ValidatorType,
+} from "https://deno.land/x/fossil/lib/validator.ts";
 const server = new Microraptor({ port: 3000 });
 
 server.route(
@@ -26,12 +35,24 @@ server.route(
                 param: req.param,
                 query: req.query,
                 cookie: req.cookie,
+                body: req.body,
               },
             ),
           },
         );
       },
     },
+    validation: new Validation(
+      {
+        param: [
+          new MicroValidator(
+            "country",
+            ValidatorType.string,
+            ["Italy", "italy"],
+          ),
+        ],
+      },
+    ),
   },
 );
 

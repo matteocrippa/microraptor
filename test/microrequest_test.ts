@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.50.0/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.51.0/testing/asserts.ts";
 import { ServerRequest } from "https://deno.land/std@v0.51.0/http/server.ts";
 import { MicroRequest, Method } from "../lib/types/index.ts";
 

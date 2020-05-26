@@ -5,7 +5,7 @@ Project is a work-in-progress and in _pre-alpha_.
 
 ## Install
 
-Import your _Microraptor_ in your project with just one line of code:
+Import _Microraptor_ in your project with just one line of code:
 
 ```ts
 import { Microraptor } from "https://deno.land/x/microraptor/microraptor.ts";
@@ -44,12 +44,20 @@ You can discover a bit more for now in `/examples` directory.
 
 ### Querystring
 
+### Validation
+
+Validation in _Microraptor_ is powered by [fossil](https://deno.land/x/fossil)/ a lib I develop to easily validate values and types.
+
+A simple usage can be the following:
+
+```ts
+```
+
 ## Pending implementation
 
 - [x] Querystring
 - [x] Params
 - [x] Cookie
-- [ ] Validation
 - [ ] CORS
 - [ ] Middleware
 - [ ] Response type (text, json)
