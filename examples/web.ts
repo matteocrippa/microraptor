@@ -5,7 +5,6 @@ import {
 } from "../microraptor.ts";
 import { Validation, MicroValidator } from "../lib/types/validation.ts";
 import {
-  Validator,
   ValidatorType,
 } from "https://deno.land/x/fossil/lib/validator.ts";
 const server = new Microraptor({ port: 3000 });
