@@ -42,15 +42,98 @@ You can discover a bit more for now in `/examples` directory.
 
 ### Parameters
 
+Parameters are easily accessible from `.param` variable of `MicroRequest`.
+
+```ts
+server.route(
+  {
+    method: Method.get,
+    path: "/:name",
+    controller: {
+      response: (req: MicroRequest) => {
+        req.request.respond({ body: `Hello ${req.params.name}` });
+      },
+    },
+  },
+);
+```
+
 ### Querystring
+
+Querystring are easily accessible from `.query` variable of `MicroRequest`.
+
+```ts
+server.route(
+  {
+    method: Method.get,
+    path: "/",
+    controller: {
+      response: (req: MicroRequest) => {
+        req.request.respond({ body: `Hello ${req.query.name}` });
+      },
+    },
+  },
+);
+```
+
+### Body
+
+Body is easily accessible from `.body` variable of `MicroRequest`.
+
+```ts
+server.route(
+  {
+    method: Method.post,
+    path: "/",
+    controller: {
+      response: (req: MicroRequest) => {
+        req.request.respond({ body: `Hello ${req.body.name}` });
+      },
+    },
+  },
+);
+```
 
 ### Validation
 
-Validation in _Microraptor_ is powered by [fossil](https://deno.land/x/fossil)/ a lib I develop to easily validate values and types.
+Validation in _Microraptor_ is powered by [fossil](https://deno.land/x/fossil)/ a library that easily validate values and types.
 
 A simple usage can be the following:
 
 ```ts
+server.route(
+  {
+    method: Method.get,
+    path: "/:country/:city",
+    controller: {
+      response: (req: MicroRequest) => {
+        req.request.respond(
+          {
+            body: JSON.stringify(
+              {
+                param: req.param,
+                query: req.query,
+                cookie: req.cookie,
+                body: req.body,
+              },
+            ),
+          },
+        );
+      },
+    },
+    validation: new Validation(
+      {
+        param: [
+          new MicroValidator(
+            "country",
+            ValidatorType.string,
+            ["Italy", "italy"],
+          ),
+        ],
+      },
+    ),
+  },
+);
 ```
 
 ## Pending implementation
@@ -62,7 +145,7 @@ A simple usage can be the following:
 - [ ] Middleware
 - [ ] Response type (text, json)
 - [ ] AWS Lambda support
-- [ ] Test
+- [x] Test
 
 ### Credits
 
