@@ -1,89 +1,77 @@
+import {
+  Validator,
+  Valid,
+  ValidatorType,
+  ValidatorFunction,
+} from "https://deno.land/x/fossil/fossil.ts";
 import { MicroRequest } from "./microrequest.ts";
 
-export enum Type {
-  string,
-  number,
-  alphanumeric,
-  email,
-}
+export class MicroValidator extends Validator {
+  key: string;
 
-export namespace Type {
-  export function custom(validator: (input: any) => boolean) {}
-}
-
-export class Validator {
-  readonly name: string;
-  readonly optional: boolean;
-  readonly type: Type;
-  constructor(name: string, type: Type, optional: boolean = true) {
-    this.name = name;
-    this.optional = optional;
-    this.type = type;
+  constructor(
+    key: string,
+    type: ValidatorType,
+    allowed: Array<any>,
+    func?: ValidatorFunction,
+  ) {
+    super(null, type, allowed, func);
+    this.key = key;
   }
+}
+
+interface Validable {
+  body?: Array<MicroValidator>;
+  param?: Array<MicroValidator>;
+  query?: Array<MicroValidator>;
+  cookie?: Array<MicroValidator>;
 }
 
 export class Validation {
-  readonly request: MicroRequest;
-  readonly body: Array<Validator>;
-  readonly param: Array<Validator>;
-  readonly cookie: Array<Validator>;
-  readonly query: Array<Validator>;
-  readonly header: Array<Validator>;
+  readonly body: Array<MicroValidator>;
+  readonly param: Array<MicroValidator>;
+  readonly query: Array<MicroValidator>;
+  readonly cookie: Array<MicroValidator>;
 
-  constructor(
-    request: MicroRequest,
-    body?: Array<Validator>,
-    param?: Array<Validator>,
-    cookie?: Array<Validator>,
-    query?: Array<Validator>,
-    header?: Array<Validator>,
-  ) {
-    this.request = request;
-    this.body = body ?? [];
-    this.param = param ?? [];
-    this.cookie = cookie ?? [];
-    this.query = query ?? [];
-    this.header = header ?? [];
+  constructor(data: Validable) {
+    this.body = data.body ?? [];
+    this.param = data.param ?? [];
+    this.query = data.query ?? [];
+    this.cookie = data.cookie ?? [];
   }
 
-  validate(): Array<Type> {
-    let validate: Array<Type> = [];
-
-    this.body.forEach((item) => {
+  validate(request: MicroRequest): Valid {
+    this.body.forEach((v) => {
+      const result = v.isValid(request.body[v.key]);
+      if (result !== true) {
+        return result;
+      }
     });
 
-    this.param.forEach((item) => {
+    this.param.forEach((v) => {
+      console.log(v.key);
+      console.log(request.param[v.key]);
+      const result = v.isValid(request.param[v.key]);
+      console.log(result);
+      if (result !== true) {
+        return result;
+      }
     });
 
-    this.cookie.forEach((item) => {
+    this.query.forEach((v) => {
+      const result = v.isValid(request.query[v.key]);
+      if (result !== true) {
+        return result;
+      }
     });
 
-    this.query.forEach((item) => {
+    this.cookie.forEach((v) => {
+      const result = v.isValid(request.cookie[v.key]);
+      if (result !== true) {
+        return result;
+      }
     });
 
-    this.header.forEach((item) => {
-    });
-
-    return validate;
-  }
-
-  private isString(input: any): boolean {
-    return (Object.prototype.toString.call(input) === "[object String]");
-  }
-
-  private isNumber(input: any): boolean {
-    return !(input instanceof Array) && (input - parseFloat(input) + 1) >= 0;
-  }
-
-  private isEmail(input: any): boolean {
-    const casted = input as unknown as string;
-    const re = /\S+@\S+\.\S+/;
-    return re.test(casted);
-  }
-
-  private isAlphanumeric(input: any): boolean {
-    const casted = input as unknown as string;
-    const re = /^\w+$/;
-    return re.test(casted);
+    return true;
   }
 }

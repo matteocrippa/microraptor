@@ -1,11 +1,11 @@
-# ![](https://raw.githubusercontent.com/matteocrippa/microraptor/develop/.github/velociraptor.png) Microraptor
+# ![](https://raw.githubusercontent.com/matteocrippa/microraptor/master/.github/velociraptor.png) Microraptor
 
 _Microraptor_ is a lightweight framework for easy routing on top of deno network lib.
 Project is a work-in-progress and in _pre-alpha_.
 
 ## Install
 
-Import your _Microraptor_ in your project with just one line of code:
+Import _Microraptor_ in your project with just one line of code:
 
 ```ts
 import { Microraptor } from "https://deno.land/x/microraptor/microraptor.ts";
@@ -44,12 +44,20 @@ You can discover a bit more for now in `/examples` directory.
 
 ### Querystring
 
+### Validation
+
+Validation in _Microraptor_ is powered by [fossil](https://deno.land/x/fossil)/ a lib I develop to easily validate values and types.
+
+A simple usage can be the following:
+
+```ts
+```
+
 ## Pending implementation
 
 - [x] Querystring
 - [x] Params
 - [x] Cookie
-- [ ] Validation
 - [ ] CORS
 - [ ] Middleware
 - [ ] Response type (text, json)
@@ -58,4 +66,4 @@ You can discover a bit more for now in `/examples` directory.
 
 ### Credits
 
-Icon [Freepik](https://www.flaticon.com/authors/freepik)
+Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)
