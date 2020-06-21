@@ -12,7 +12,7 @@ export class MicroValidator extends Validator {
   constructor(
     key: string,
     type: ValidatorType,
-    allowed: Array<any>,
+    allowed: Array<unknown>,
     func?: ValidatorFunction,
   ) {
     super(null, type, allowed, func);

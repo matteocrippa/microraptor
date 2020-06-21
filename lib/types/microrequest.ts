@@ -7,10 +7,10 @@ import { Route } from "./route.ts";
 export class MicroRequest {
   readonly request: ServerRequest;
   route: Route;
-  body: any = {};
-  query: any = {};
-  param: any = {};
-  cookie: any = {};
+  body: object = {};
+  query: object = {};
+  param: object = {};
+  cookie: object = {};
 
   constructor(
     request: ServerRequest,
@@ -28,7 +28,8 @@ export class MicroRequest {
   }
 
   private async getBody(): Promise<object> {
-    const decoded = decode(await Deno.readAll(this.request.body));
+    const body = await Deno.readAll(this.request.r ?? this.request.body);
+    const decoded = decode(body);
     // TODO: improve decoding
     return decoded.length > 0 ? JSON.parse(decoded) : decoded;
   }
@@ -74,7 +75,7 @@ export class MicroRequest {
 
   private getCookie(): object {
     const cookies = this.request.headers?.get("cookie");
-    return cookies?.split(";").reduce((prev: any, cookie: string) => {
+    return cookies?.split(";").reduce((prev: object, cookie: string) => {
       const parts = cookie.match(/(.*?)=(.*)$/);
       if (parts && parts.length > 1) {
         const key = parts[1].trim();
