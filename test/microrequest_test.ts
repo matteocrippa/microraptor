@@ -1,8 +1,8 @@
-import { assertEquals } from "https://deno.land/std@0.54.0/testing/asserts.ts";
-import { ServerRequest } from "https://deno.land/std@0.54.0/http/server.ts";
+import { assertEquals } from "https://deno.land/std@0.58.0/testing/asserts.ts";
+import { ServerRequest } from "https://deno.land/std@0.58.0/http/server.ts";
 import { MicroRequest, Method } from "../lib/types/index.ts";
-import { BufReader, BufWriter } from "https://deno.land/std@0.54.0/io/bufio.ts";
-import { encode } from "https://deno.land/std@v0.54.0/encoding/utf8.ts";
+import { BufReader, BufWriter } from "https://deno.land/std@0.58.0/io/bufio.ts";
+import { encode } from "https://deno.land/std@v0.58.0/encoding/utf8.ts";
 
 const { Buffer, test } = Deno;
 

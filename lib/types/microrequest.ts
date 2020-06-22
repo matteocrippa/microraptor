@@ -1,7 +1,7 @@
 import {
   ServerRequest,
-} from "https://deno.land/std@0.54.0/http/server.ts";
-import { decode } from "https://deno.land/std@v0.54.0/encoding/utf8.ts";
+} from "https://deno.land/std@0.58.0/http/server.ts";
+import { decode } from "https://deno.land/std@v0.58.0/encoding/utf8.ts";
 import { Route } from "./route.ts";
 
 export class MicroRequest {
