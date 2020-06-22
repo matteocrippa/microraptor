@@ -12,7 +12,7 @@ export class MicroValidator extends Validator {
   constructor(
     key: string,
     type: ValidatorType,
-    allowed: Array<unknown>,
+    allowed: Array<any>,
     func?: ValidatorFunction,
   ) {
     super(null, type, allowed, func);
@@ -49,8 +49,6 @@ export class Validation {
     });
 
     this.param.forEach((v) => {
-      console.log(v.key);
-      console.log(request.param[v.key]);
       const result = v.isValid(request.param[v.key]);
       console.log(result);
       if (result !== true) {

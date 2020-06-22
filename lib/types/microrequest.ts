@@ -7,10 +7,10 @@ import { Route } from "./route.ts";
 export class MicroRequest {
   readonly request: ServerRequest;
   route: Route;
-  body: object = {};
-  query: object = {};
-  param: object = {};
-  cookie: object = {};
+  body: any = {};
+  query: any = {};
+  param: any = {};
+  cookie: any = {};
 
   constructor(
     request: ServerRequest,
