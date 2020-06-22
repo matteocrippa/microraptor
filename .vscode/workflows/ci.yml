@@ -25,5 +25,11 @@ jobs:
       - name: Setup Deno environment
         uses: denolib/setup-deno@v1.3.0
 
-      - name: Run tests
+      - name: Format
+        run: deno fmt
+
+      - name: Linting
+        run: deno lint --unstable ./lib/**/* microraptor.ts
+
+      - name: Test
         run: deno test test/*.ts

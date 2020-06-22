@@ -1,7 +1,7 @@
 import {
   serve,
   Server,
-} from "https://deno.land/std@v0.51.0/http/server.ts";
+} from "https://deno.land/std@v0.58.0/http/server.ts";
 import { Options, Route, Middleware, MicroRequest } from "./lib/types/index.ts";
 
 export class Microraptor {

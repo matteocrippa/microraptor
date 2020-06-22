@@ -1,15 +1,19 @@
-import { assertEquals } from "https://deno.land/std@0.54.0/testing/asserts.ts";
-import { ServerRequest } from "https://deno.land/std@0.54.0/http/server.ts";
+import { assertEquals } from "https://deno.land/std@0.58.0/testing/asserts.ts";
+import { ServerRequest } from "https://deno.land/std@0.58.0/http/server.ts";
 import { MicroRequest, Method } from "../lib/types/index.ts";
+import { BufReader, BufWriter } from "https://deno.land/std@0.58.0/io/bufio.ts";
+import { encode } from "https://deno.land/std@v0.58.0/encoding/utf8.ts";
 
-const dummyRequest = new ServerRequest();
-dummyRequest.headers = new Headers();
-dummyRequest.method = "GET";
+const { Buffer, test } = Deno;
 
-Deno.test("Querystring", async () => {
-  dummyRequest.url = "/?string=value&number=2";
+const testRequest = new ServerRequest();
+testRequest.headers = new Headers();
+testRequest.method = "GET";
 
-  const processed = new MicroRequest(dummyRequest, {
+test("Querystring", async () => {
+  testRequest.url = "/?string=value&number=2";
+
+  const processed = new MicroRequest(testRequest, {
     method: Method.get,
     path: "/",
     controller: {
@@ -23,10 +27,10 @@ Deno.test("Querystring", async () => {
   assertEquals(processed.query.notexisting, undefined);
 });
 
-Deno.test("Cookies", async () => {
-  dummyRequest.url = "/";
+test("Cookies", async () => {
+  testRequest.url = "/";
 
-  const processed = new MicroRequest(dummyRequest, {
+  const processed = new MicroRequest(testRequest, {
     method: Method.get,
     path: "/",
     controller: {
@@ -38,10 +42,10 @@ Deno.test("Cookies", async () => {
   assertEquals(processed.cookie, {});
 });
 
-Deno.test("Params", async () => {
-  dummyRequest.url = "/second";
+test("Params", async () => {
+  testRequest.url = "/second";
 
-  const processed = new MicroRequest(dummyRequest, {
+  const processed = new MicroRequest(testRequest, {
     method: Method.get,
     path: "/:first",
     controller: {
@@ -52,4 +56,29 @@ Deno.test("Params", async () => {
   await processed.process();
 
   assertEquals(processed.param.first, "second");
+});
+
+test("Body", async () => {
+  const testRequest = new ServerRequest();
+  testRequest.url = "/third";
+  testRequest.method = "POST";
+
+  const payload = { second: "third" };
+  const json = JSON.stringify(payload);
+  const encoded = encode(json);
+  const buf = new Buffer(encoded);
+  testRequest.headers = new Headers();
+  testRequest.r = new BufReader(buf);
+
+  const processed = new MicroRequest(testRequest, {
+    method: Method.post,
+    path: "/third",
+    controller: {
+      response: (req: MicroRequest) => {},
+    },
+  });
+
+  await processed.process();
+
+  assertEquals(processed.body.second, "third");
 });

@@ -51,7 +51,7 @@ server.route(
     path: "/:name",
     controller: {
       response: (req: MicroRequest) => {
-        req.request.respond({ body: `Hello ${req.params.name}` });
+        req.request.respond({ body: `Hello ${req.param.name}` });
       },
     },
   },
@@ -88,6 +88,24 @@ server.route(
     controller: {
       response: (req: MicroRequest) => {
         req.request.respond({ body: `Hello ${req.body.name}` });
+      },
+    },
+  },
+);
+```
+
+### Cookie
+
+Cookies are easily accessible from `.cookie` variable of `MicroRequest`.
+
+```ts
+server.route(
+  {
+    method: Method.get,
+    path: "/",
+    controller: {
+      response: (req: MicroRequest) => {
+        req.request.respond({ body: `Hello ${req.cookie.name}` });
       },
     },
   },
